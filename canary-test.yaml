@@ -1,0 +1,125 @@
+# 1. The "Stable" Deployment (v1) with Health Checks
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whoami-v1
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: whoami
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: whoami
+        version: v1
+    spec:
+      containers:
+      - name: whoami
+        image: traefik/whoami
+        ports:
+        - containerPort: 80
+        # Liveness: Restart if the process hangs
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        # Readiness: Don't send traffic until the app responds
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 2
+          periodSeconds: 5
+---
+# 2. Service for v1
+apiVersion: v1
+kind: Service
+metadata:
+  name: whoami-v1-service
+spec:
+  ports:
+    - port: 80
+  selector:
+    app: whoami
+    version: v1
+---
+# 3. The "Canary" Deployment (v2) with Health Checks
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whoami-v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: whoami
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: whoami
+        version: v2
+    spec:
+      containers:
+      - name: whoami
+        image: traefik/whoami
+        ports:
+        - containerPort: 80
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 2
+          periodSeconds: 5
+---
+# 4. Service for v2
+apiVersion: v1
+kind: Service
+metadata:
+  name: whoami-v2-service
+spec:
+  ports:
+    - port: 80
+  selector:
+    app: whoami
+    version: v2
+---
+# 5. The Traefik Traffic Splitter
+apiVersion: traefik.io/v1alpha1
+kind: TraefikService
+metadata:
+  name: whoami-canary-weighted
+spec:
+  weighted:
+    services:
+      - name: whoami-v1-service
+        port: 80
+        weight: 60
+      - name: whoami-v2-service
+        port: 80
+        weight: 40
+---
+# 6. The IngressRoute
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: whoami-ingress
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: Host(`whoami.local`)
+    kind: Rule
+    services:
+    - name: whoami-canary-weighted
+      kind: TraefikService

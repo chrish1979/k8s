@@ -1,0 +1,16 @@
+# traefik-values.yaml
+ports:
+  traefik:
+    expose: 
+      default: true
+    port: 9000
+
+# The API and Dashboard are controlled by these flags
+api:
+  insecure: true
+  dashboard: true
+  
+# Add this to your existing traefik-values.yaml
+providers:
+  kubernetesCRD:
+    allowCrossNamespace: true  # This is the "Magic Key"

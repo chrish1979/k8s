@@ -1,0 +1,19 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: whoami-route
+spec:
+  entryPoints:
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: whoami-route
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: Host(`whoami.local`)
+    kind: Rule
+    services:
+    - name: whoami-canary # Point to the TraefikService, not the K8s service
+      kind: TraefikService

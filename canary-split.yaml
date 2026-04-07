@@ -1,0 +1,16 @@
+apiVersion: traefik.io/v1alpha1
+kind: TraefikService
+metadata:
+  name: whoami-canary
+  namespace: default
+spec:
+  weighted:
+    services:
+      - name: whoami-service
+        namespace: default
+        port: 80
+        weight: 90  # 90% of traffic stays here
+      - name: whoami-service
+        namespace: production
+        port: 80
+        weight: 10  # 10% goes to the new version
