@@ -2,7 +2,7 @@
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: {{ .Release.Name }}-ingressroute
+  name: {{ .Values.appName }}-ingressroute
 spec:
   entryPoints:
     - {{ .Values.ingress.entryPoint }}
@@ -10,6 +10,11 @@ spec:
     - match: Host(`{{ .Values.ingress.host }}`)
       kind: Rule
       services:
-        - name: {{ .Release.Name }}-frontend
+        {{- if .Values.canary.enabled }}
+        - name: guestbook-weighted
+          kind: TraefikService
+        {{- else }}
+        - name: {{ .Values.appName }}-frontend
           port: {{ .Values.frontend.port }}
+        {{- end }}
 {{- end }}

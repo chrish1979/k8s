@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Release.Name }}-frontend
+  name: {{ .Values.appName }}-frontend   # ← was {{ .Release.Name }}-frontend
 spec:
   selector:
-    app: {{ .Release.Name }}-frontend
+    app: {{ .Values.appName }}-frontend
   ports:
     - port: {{ .Values.frontend.port }}
       targetPort: {{ .Values.frontend.port }}

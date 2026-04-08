@@ -1,0 +1,16 @@
+appName: guestbook-canary   # ← overrides to "guestbook-canary" for canary service name
+
+canary:
+  enabled: false   # canary release doesn't create the TraefikService
+                   # only the stable release does
+
+frontend:
+  image: gcr.io/google-samples/gb-frontend:v6   # new version
+  replicas: 1                                     # just 1 pod to start
+
+ingress:
+  enabled: false
+
+redis:
+  enabled: false
+  replicas: 0

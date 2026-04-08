@@ -1,0 +1,15 @@
+{{- if .Values.canary.enabled }}
+apiVersion: traefik.io/v1alpha1
+kind: TraefikService
+metadata:
+  name: guestbook-weighted
+spec:
+  weighted:
+    services:
+      - name: {{ .Values.canary.stableServiceName }}
+        port: {{ .Values.frontend.port }}
+        weight: {{ .Values.canary.stableWeight }}
+      - name: {{ .Values.canary.canaryServiceName }}
+        port: {{ .Values.frontend.port }}
+        weight: {{ .Values.canary.canaryWeight }}
+{{- end }}

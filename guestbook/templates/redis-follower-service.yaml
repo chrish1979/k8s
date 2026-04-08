@@ -1,3 +1,4 @@
+{{- if .Values.redis.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -9,3 +10,4 @@ spec:
     - port: {{ .Values.redis.port }}
       targetPort: {{ .Values.redis.port }}
   type: ClusterIP
+{{- end }}

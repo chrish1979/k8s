@@ -1,5 +1,16 @@
 # Redis backend
+
+appName: guestbook   # ← always "guestbook" for the stable service name
+
+canary:
+  enabled: false
+  stableWeight: 90
+  canaryWeight: 10
+  stableServiceName: guestbook-frontend        # what to call stable in the splitter
+  canaryServiceName: guestbook-canary-frontend # what to call canary in the splitter
+
 redis:
+  enabled: true
   image: redis:7.2
   port: 6379
   replicas: 1

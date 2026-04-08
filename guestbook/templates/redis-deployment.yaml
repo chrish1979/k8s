@@ -1,3 +1,4 @@
+{{- if .Values.redis.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -26,3 +27,4 @@ spec:
             limits:
               memory: {{ .Values.redis.resources.limits.memory }}
               cpu: {{ .Values.redis.resources.limits.cpu }}
+{{- end }}
