@@ -1,0 +1,33 @@
+# Redis backend
+redis:
+  image: redis:7.2
+  port: 6379
+  replicas: 1
+  serviceName: redis-leader
+  followerServiceName: redis-follower
+  resources:
+    requests:
+      memory: "64Mi"
+      cpu: "100m"
+    limits:
+      memory: "128Mi"
+      cpu: "250m"
+
+# Guestbook frontend
+frontend:
+  image: gcr.io/google-samples/gb-frontend:v5
+  port: 80
+  replicas: 2
+  resources:
+    requests:
+      memory: "64Mi"
+      cpu: "100m"
+    limits:
+      memory: "128Mi"
+      cpu: "250m"
+
+# Ingress (Traefik)
+ingress:
+  enabled: true
+  host: guestbook.local
+  entryPoint: web
