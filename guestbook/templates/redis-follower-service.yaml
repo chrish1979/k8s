@@ -5,7 +5,7 @@ metadata:
   name: {{ .Values.redis.followerServiceName }}
 spec:
   selector:
-    app: {{ .Release.Name }}-redis
+    app: {{ .Values.appName }}-redis
   ports:
     - port: {{ .Values.redis.port }}
       targetPort: {{ .Values.redis.port }}
