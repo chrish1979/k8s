@@ -5,7 +5,7 @@ canary:
                    # only the stable release does
 
 frontend:
-  image: gcr.io/google-samples/gb-frontend:v4   # new version
+  image: gcr.io/google-samples/gb-frontend:v5   # new version
   replicas: 1                                     # just 1 pod to start
 
 ingress:
