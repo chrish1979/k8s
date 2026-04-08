@@ -3,7 +3,7 @@
 appName: guestbook   # ← always "guestbook" for the stable service name
 
 canary:
-  enabled: false
+  enabled: true
   stableWeight: 90
   canaryWeight: 10
   stableServiceName: guestbook-frontend        # what to call stable in the splitter
