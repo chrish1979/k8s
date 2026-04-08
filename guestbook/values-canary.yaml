@@ -5,7 +5,7 @@ canary:
                    # only the stable release does
 
 frontend:
-  image: gcr.io/google-samples/gb-frontend:v5   # new version
+  image: traefik/whoami    # clearly different response when canary is hit  # new version
   replicas: 1                                     # just 1 pod to start
 
 ingress:
