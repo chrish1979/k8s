@@ -16,8 +16,12 @@ spec:
     automated:
       prune: true
       selfHeal: false
+    syncOptions:
+      - RespectIgnoreDifferences=true
   ignoreDifferences:
     - group: serving.knative.dev
       kind: Service
-      managedFieldsManagers:
-        - knative-serving
+      jsonPointers:
+        - /spec/template/spec/containers/0/readinessProbe
+        - /spec/traffic
+        - /spec/template/metadata/name
