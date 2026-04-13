@@ -1,0 +1,21 @@
+apiVersion: flagger.app/v1beta1
+kind: Canary
+metadata:
+  name: {{ .Release.Name }}-wordpress
+spec:
+  provider: knative
+  targetRef:
+    apiVersion: serving.knative.dev/v1
+    kind: Service
+    name: {{ .Release.Name }}-wordpress
+  progressDeadlineSeconds: 120
+  analysis:
+    interval: 30s
+    threshold: 3
+    maxWeight: 80
+    stepWeight: 20
+    metrics:
+      - name: request-success-rate
+        thresholdRange:
+          min: 99
+        interval: 30s
