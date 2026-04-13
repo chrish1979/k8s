@@ -19,6 +19,8 @@ spec:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - RespectIgnoreDifferences=true
   ignoreDifferences:
     - group: serving.knative.dev
       kind: Service
