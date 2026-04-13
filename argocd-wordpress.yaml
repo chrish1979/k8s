@@ -18,12 +18,4 @@ spec:
   syncPolicy:
     automated:
       prune: true
-      selfHeal: false
-    syncOptions:
-      - ServerSideApply=true
-      - RespectIgnoreDifferences=true
-  ignoreDifferences:
-    - group: serving.knative.dev
-      kind: Service
-      managedFieldsManagers:
-        - flagger
+      selfHeal: true
