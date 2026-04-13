@@ -21,7 +21,6 @@ spec:
   ignoreDifferences:
     - group: serving.knative.dev
       kind: Service
-      jsonPointers:
-        - /spec/template/spec/containers/0/readinessProbe
-        - /spec/traffic
-        - /spec/template/metadata/name
+      managedFieldsManagers:
+        - knative-serving
+        - controller
