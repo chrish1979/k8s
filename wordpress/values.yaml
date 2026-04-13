@@ -10,12 +10,12 @@ mysql:
 
 # WordPress
 wordpress:
-  image: wordpress:6.4-apache
+  image: wordpress:6.5-apache
   port: 80
   canary:
-    enabled: true
+    enabled: false
     image: wordpress:6.5-apache
-    trafficPercent: 20
+    trafficPercent: 10
 
 # Domain
 domain: wordpress.knative.local
