@@ -20,6 +20,7 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
+      - ServerSideApply=true
       - RespectIgnoreDifferences=true
   ignoreDifferences:
     - group: serving.knative.dev
