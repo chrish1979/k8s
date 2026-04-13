@@ -1,0 +1,21 @@
+# MySQL
+mysql:
+  image: mysql:8.0
+  port: 3306
+  database: wordpress
+  user: wordpress
+  password: wordpress
+  rootPassword: rootpassword
+  storage: 1Gi
+
+# WordPress
+wordpress:
+  image: wordpress:6.4-apache
+  port: 80
+  canary:
+    enabled: true
+    image: wordpress:6.5-apache
+    trafficPercent: 10
+
+# Domain
+domain: wordpress.knative.local
