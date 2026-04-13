@@ -15,7 +15,7 @@ wordpress:
   canary:
     enabled: true
     image: wordpress:6.5-apache
-    trafficPercent: 10
+    trafficPercent: 20
 
 # Domain
 domain: wordpress.knative.local
